@@ -9,6 +9,7 @@ const keywords = process.argv[2];
     let _currentUrl;
     const PAGE_SIZE = 30;
     let pictureCount;
+    const start_time = new Date();
 
     console.log('正在获取图片信息...');
     let res;
@@ -47,7 +48,6 @@ const keywords = process.argv[2];
     let downloadCount = 0;
     let sucCount = 0;
     let failCount = 0;
-    const start_time = new Date();
 
     for (let page = 1; page <= pageCount; page++) {
       if (page !== 1) {
@@ -71,7 +71,7 @@ const keywords = process.argv[2];
       for (let i = urls.length; i--; ) {
         const url = urls[i];
         const filename = url.replace(/https:\/\/images[\d]*.alphacoders.com\/[\d]{3}\//, '');
-        
+
         const writer = fs.createWriteStream(`./wallpaper/${keywords}/${filename}`, '');
         axios
           .get(url, { responseType: 'stream', timeout: 8888 })
