@@ -84,7 +84,7 @@ const keywords = process.argv[2];
               if (downloadCount === pictureCount) {
                 const end_time = new Date();
                 const time = (end_time - start_time) / 1000;
-                console.log(`\n图片爬取完成，共用时${Math.floor(time / 3600)}时${Math.floor(time / 60)}分${Math.floor(time)}秒`);
+                console.log(`\n图片爬取完成，共用时${Math.floor(time / 3600)}时${Math.floor(time / 60)}分${Math.floor(time)%60}秒`);
                 console.log(`爬取结果：${sucCount}/${sucCount + failCount}`);
                 console.log(`成功率${(sucCount / (sucCount + failCount)) * 100}%`);
               }
@@ -96,7 +96,7 @@ const keywords = process.argv[2];
               if (downloadCount === pictureCount) {
                 const end_time = new Date();
                 const time = (end_time - start_time) / 1000;
-                console.log(`\n图片爬取完成，共用时${Math.floor(time / 3600)}时${Math.floor(time / 60)}分${Math.floor(time)}秒`);
+                console.log(`\n图片爬取完成，共用时${Math.floor(time / 3600)}时${Math.floor(time / 60)}分${Math.floor(time)%60}秒`);
                 console.log(`爬取结果：${sucCount}/${sucCount + failCount}`);
                 console.log(`成功率${(sucCount / (sucCount + failCount)) * 100}%`);
               }
