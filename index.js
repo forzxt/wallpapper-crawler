@@ -4,6 +4,10 @@ const cheerio = require('cheerio');
 
 const keywords = process.argv[2];
 
+process.on('uncaughtException', e => {
+  console.log(e);
+});
+
 (async keywords => {
   try {
     let _currentUrl;
@@ -16,10 +20,10 @@ const keywords = process.argv[2];
     let $;
     try {
       res = await axios.get(`https://wall.alphacoders.com/search.php?search=${encodeURI(keywords)}&lang=Chinese`, { timeout: 16666 });
-      $ = cheerio.load(res.data);
     } catch {
       console.log('请求超时');
     }
+    $ = cheerio.load(res.data);
 
     // 获取重定向之后的 url
     _currentUrl = res.request._redirectable._currentUrl;
@@ -58,6 +62,7 @@ const keywords = process.argv[2];
           $ = cheerio.load(res.data);
         } catch {
           console.log('请求超时');
+          continue;
         }
       }
       let urls = [];
@@ -85,8 +90,8 @@ const keywords = process.argv[2];
                 const end_time = new Date();
                 const time = (end_time - start_time) / 1000;
                 console.log(`\n图片爬取完成，共用时${Math.floor(time / 3600)}时${Math.floor(time / 60)}分${Math.floor(time)%60}秒`);
-                console.log(`爬取结果：${sucCount}/${sucCount + failCount}`);
-                console.log(`成功率${(sucCount / (sucCount + failCount)) * 100}%`);
+                console.log(`爬取结果：${sucCount}/${pictureCount}`);
+                console.log(`成功率${(sucCount / pictureCount) * 100}%`);
               }
             });
 
@@ -97,8 +102,8 @@ const keywords = process.argv[2];
                 const end_time = new Date();
                 const time = (end_time - start_time) / 1000;
                 console.log(`\n图片爬取完成，共用时${Math.floor(time / 3600)}时${Math.floor(time / 60)}分${Math.floor(time)%60}秒`);
-                console.log(`爬取结果：${sucCount}/${sucCount + failCount}`);
-                console.log(`成功率${(sucCount / (sucCount + failCount)) * 100}%`);
+                console.log(`爬取结果：${sucCount}/${pictureCount}`);
+                console.log(`成功率${(sucCount / pictureCount) * 100}%`);
               }
             });
           })
@@ -109,8 +114,8 @@ const keywords = process.argv[2];
               const end_time = new Date();
               const time = (end_time - start_time) / 1000;
               console.log(`\n图片爬取完成，共用时：${Math.floor(time/60) % 60}分${Math.floor(time)%60}秒`);
-              console.log(`爬取结果：${sucCount}/${sucCount + failCount}`);
-              console.log(`成功率：${(sucCount / (sucCount + failCount)) * 100}%`);
+              console.log(`爬取结果：${sucCount}/${pictureCount}`);
+              console.log(`成功率：${(sucCount / pictureCount) * 100}%`);
             }
           });
       }
