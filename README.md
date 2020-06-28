@@ -2,7 +2,7 @@
 
 ## 项目预览
 
-找个这么好爬的网站不容易。。速度基本看你网速
+找个这么好爬的网站不容易。。爬取速度基本看你网速
 ![项目预览图片1](http://forcier.3vkj.net/images/1.png)
 ![项目预览图片2](http://forcier.3vkj.net/images/2.png)
 
@@ -13,3 +13,8 @@ npm i
 node index.js ${关键字}
 ```
 
+### 将所有图片中尺寸不符和下载失败的图片删除
+
+```
+npm handle.js
+```

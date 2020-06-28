@@ -35,7 +35,7 @@ process.on('uncaughtException', e => {
       console.log('\n获取失败，请换个关键词试试^_^');
       process.exit(-1);
     }
-    console.log(`一共${pictureCount}张图片，${pageCount}页`);
+    console.log(`共发现${pictureCount}张图片`);
 
     try {
       await fs.mkdirSync(`./wallpaper`);
@@ -86,38 +86,29 @@ process.on('uncaughtException', e => {
             writer.on('finish', () => {
               ++sucCount;
               console.log(`${++downloadCount} -- 图片 ${filename} 下载成功 √`);
-              if (downloadCount === pictureCount) {
-                const end_time = new Date();
-                const time = (end_time - start_time) / 1000;
-                console.log(`\n图片爬取完成，共用时${Math.floor(time / 3600)}时${Math.floor(time / 60)}分${Math.floor(time)%60}秒`);
-                console.log(`爬取结果：${sucCount}/${pictureCount}`);
-                console.log(`成功率${(sucCount / pictureCount) * 100}%`);
-              }
+              finish();
             });
 
             writer.on('error', () => {
               ++failCount;
               console.log(`${++downloadCount} -- 图片 ${filename} 下载失败 ×`);
-              if (downloadCount === pictureCount) {
-                const end_time = new Date();
-                const time = (end_time - start_time) / 1000;
-                console.log(`\n图片爬取完成，共用时${Math.floor(time / 3600)}时${Math.floor(time / 60)}分${Math.floor(time)%60}秒`);
-                console.log(`爬取结果：${sucCount}/${pictureCount}`);
-                console.log(`成功率${(sucCount / pictureCount) * 100}%`);
-              }
+              finish();
             });
           })
           .catch(() => {
             ++sucCount;
             console.log(`${++downloadCount} -- 图片 ${filename} 下载成功 √`);
-            if (downloadCount === pictureCount) {
-              const end_time = new Date();
-              const time = (end_time - start_time) / 1000;
-              console.log(`\n图片爬取完成，共用时：${Math.floor(time/60) % 60}分${Math.floor(time)%60}秒`);
-              console.log(`爬取结果：${sucCount}/${pictureCount}`);
-              console.log(`成功率：${(sucCount / pictureCount) * 100}%`);
-            }
+            finish();
           });
+      }
+    }
+    function finish() {
+      if (downloadCount === pictureCount) {
+        const end_time = new Date();
+        const time = (end_time - start_time) / 1000;
+        console.log(`\n共用时：${Math.floor(time / 3600)}时${Math.floor(time / 60) % 60}分${Math.floor(time)%60}秒`);
+        console.log(`结果：${sucCount}/${pictureCount}`);
+        console.log(`成功率：${(sucCount / pictureCount) * 100}%`);
       }
     }
   } catch (err) {
