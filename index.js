@@ -39,29 +39,32 @@ process.on('uncaughtException', e => {
 
     try {
       await fs.mkdirSync(`./wallpaper`);
-    } catch {}
-    console.log('\n创建目录 "wallpaper" 成功');
+      console.log('\n创建目录 "wallpaper" 成功');
+    } catch {
+      console.log('\n目录 "wallpaper" 已存在');
+    }
 
     try {
       await fs.mkdirSync(`./wallpaper/${keywords}`);
-    } catch {}
-    console.log(`创建目录 "wallpaper\\${keywords}" 成功\n`);
+      console.log(`创建目录 "wallpaper\\${keywords}" 成功`);
+    } catch {
+      console.log(`目录 "wallpaper\\${keywords}" 已存在`);
+    }
 
-    console.log(`开始写入图片，目标路径 "${__dirname}\\wallpaper\\${keywords}\\"\n`);
+    console.log(`\n开始写入图片，目标路径 "${__dirname}\\wallpaper\\${keywords}\\"`);
 
     let downloadCount = 0;
     let sucCount = 0;
-    let failCount = 0;
 
     for (let page = 1; page <= pageCount; page++) {
       if (page !== 1) {
-        console.log('正在获取图片信息...');
         let res;
         try {
           res = await axios.get(`${_currentUrl}&page=${page}`, { timeout: 11111 });
           $ = cheerio.load(res.data);
         } catch {
           console.log('请求超时');
+          ++downloadCount;
           continue;
         }
       }
@@ -73,7 +76,7 @@ process.on('uncaughtException', e => {
             .replace(/thumb-[\d]{3}-/, '')
         );
       });
-      for (let i = urls.length; i--; ) {
+      for (let i = urls.length; i--;) {
         const url = urls[i];
         const filename = url.replace(/https:\/\/images[\d]*.alphacoders.com\/[\d]{3}\//, '');
 
@@ -90,7 +93,6 @@ process.on('uncaughtException', e => {
             });
 
             writer.on('error', () => {
-              ++failCount;
               console.log(`${++downloadCount} -- 图片 ${filename} 下载失败 ×`);
               finish();
             });
@@ -106,7 +108,7 @@ process.on('uncaughtException', e => {
       if (downloadCount === pictureCount) {
         const end_time = new Date();
         const time = (end_time - start_time) / 1000;
-        console.log(`\n共用时：${Math.floor(time / 3600)}时${Math.floor(time / 60) % 60}分${Math.floor(time)%60}秒`);
+        console.log(`\n用时：${Math.floor(time / 3600)}:${Math.floor(time / 60) % 60}:${Math.floor(time) % 60}`);
         console.log(`结果：${sucCount}/${pictureCount}`);
         console.log(`成功率：${(sucCount / pictureCount) * 100}%`);
       }
