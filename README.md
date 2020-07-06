@@ -12,9 +12,3 @@
 npm i
 node index.js ${关键字}
 ```
-
-### 将所有图片中尺寸不符和下载失败的图片删除
-
-```
-node handle.js
-```

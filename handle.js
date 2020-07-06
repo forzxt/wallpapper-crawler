@@ -2,7 +2,7 @@
  * @Author: forcier
  * @Date: 2020-06-28 12:08:12
  * @LastEditors: forcier
- * @LastEditTime: 2020-06-28 13:44:09
+ * @LastEditTime: 2020-07-07 02:20:50
  * @Description: 将尺寸不符和下载失败的图片删除
  */
 
@@ -22,9 +22,8 @@ const images = require('images');
 
         const destDirList = await fs.readdirSync(dir)
         destDirList.forEach(async v => {
-
             const destDir = path.join(dir, v)
-            // const destDir = path.join('./wallpaper/四月是你的谎言')
+            // const destDir = path.join('./wallpaper/刀剑神域')
             if (!fs.statSync(destDir).isDirectory())
                 return null
             const imagesList = await fs.readdirSync(destDir)
