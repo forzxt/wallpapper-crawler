@@ -73,9 +73,12 @@ process.on('uncaughtException', e => {
       }
       let urls = [];
       $('div.thumb-container > div.boxgrid > a > img').each((i, item) => {
+        // console.log($(item).attr('src').replace(/thumb-[\d]{3}-/, ''))
+        // process.exit(-1)
         urls.push(
           $(item)
-            .attr('data-src')
+            // .attr('data-src')
+            .attr('src')
             .replace(/thumb-[\d]{3}-/, '')
         );
       });
